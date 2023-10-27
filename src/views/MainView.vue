@@ -1,3 +1,3 @@
 <template>
-  <router-view />
+  <q-btn>hello</q-btn>
 </template>
