@@ -13,19 +13,19 @@ const items = {
     },
     {
       label: 'Возможности',
-      link: '/possibilities',
+      link: '#possibilities',
     },
     {
       label: 'Тарифы',
-      link: '/tariffs',
+      link: '#tariffs',
     },
     {
       label: 'Внедрение',
-      link: '/integration',
+      link: '#integration',
     },
     {
       label: 'Отзывы',
-      link: '/reviews',
+      link: '#reviews',
     },
   ],
   register: [
@@ -43,7 +43,7 @@ const items = {
 
 <template>
   <a-layout :class="$style.layout">
-    <a-layout-header>
+    <a-layout-header :class="$style.header">
       <a-row justify="space-between">
         <a-col>
           <a-menu
@@ -55,7 +55,7 @@ const items = {
               v-for="item in items.nav"
               :key="item.link"
             >
-              <router-link :to="item.link">{{ item.label }}</router-link>
+              <a :href="item.link">{{ item.label }}</a>
             </a-menu-item>
           </a-menu>
         </a-col>
@@ -100,7 +100,14 @@ const items = {
   min-height: 100vh;
 }
 
+.header {
+  position: fixed;
+  z-index: 1000;
+  width: 100vw;
+}
+
 .content {
+  padding-top: 64px;
   margin: 24px 0;
 }
 </style>

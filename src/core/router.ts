@@ -31,22 +31,6 @@ export const router = createRouter({
           component: MainView,
         },
         {
-          path: '/possibilities',
-          component: MainView,
-        },
-        {
-          path: '/tariffs',
-          component: MainView,
-        },
-        {
-          path: '/integration',
-          component: MainView,
-        },
-        {
-          path: '/reviews',
-          component: MainView,
-        },
-        {
           path: '/',
           component: AuthLayout,
           children: [
