@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import TheContainer from '@/components/TheContainer.vue';
+import TheFooter from '@/components/TheFooter.vue';
 
 const route = useRoute();
 
 const items = {
-  left: [
+  nav: [
     {
       label: 'Главная',
       link: '/',
@@ -27,11 +28,7 @@ const items = {
       link: '/reviews',
     },
   ],
-  right: [
-    {
-      label: 'Вход для зарегистрированных пользователей',
-      link: '/login',
-    },
+  register: [
     {
       label: 'Зарегистрировать организацию',
       link: '/register/organization',
@@ -55,7 +52,7 @@ const items = {
             :selected-keys="[route.path]"
           >
             <a-menu-item
-              v-for="item in items.left"
+              v-for="item in items.nav"
               :key="item.link"
             >
               <router-link :to="item.link">{{ item.label }}</router-link>
@@ -69,12 +66,18 @@ const items = {
             mode="horizontal"
             :selected-keys="[route.path]"
           >
-            <a-menu-item
-              v-for="item in items.right"
-              :key="item.link"
-            >
-              <router-link :to="item.link">{{ item.label }}</router-link>
+            <a-menu-item key="/login">
+              <router-link to="/login">Вход для зарегистрированных пользователей</router-link>
             </a-menu-item>
+
+            <a-sub-menu title="Регистрация">
+              <a-menu-item
+                v-for="item in items.register"
+                :key="item.link"
+              >
+                <router-link :to="item.link">{{ item.label }}</router-link>
+              </a-menu-item>
+            </a-sub-menu>
           </a-menu>
         </a-col>
       </a-row>
@@ -88,7 +91,7 @@ const items = {
       </TheContainer>
     </a-layout-content>
 
-    <a-layout-footer :class="$style.footer">Профтестиум ©2023</a-layout-footer>
+    <TheFooter />
   </a-layout>
 </template>
 
@@ -99,9 +102,5 @@ const items = {
 
 .content {
   margin: 24px 0;
-}
-
-.footer {
-  text-align: center;
 }
 </style>

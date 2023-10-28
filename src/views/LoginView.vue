@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 interface FormValues {
   email: string;
@@ -13,6 +16,8 @@ const form = reactive<FormValues>({
 
 const onFinish = (values: FormValues) => {
   console.log(values);
+
+  router.push('/account');
 };
 </script>
 
