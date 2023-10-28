@@ -1,5 +1,9 @@
 import { Rule } from 'ant-design-vue/es/form';
 
+export const patterns = {
+  url: /https?:\/\/(?:www\.)?[\w@:%._\-+~#=]{1,256}\.[\w()]{1,6}\b(?:[\w()@:%_+.~#?&/=]*)/g,
+};
+
 export const booleanValidator = async (_rule: Rule, value: boolean) => {
   if (value) {
     return Promise.resolve();

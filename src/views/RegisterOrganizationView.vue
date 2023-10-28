@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { booleanValidator, repeatPasswordValidator } from '@/utils/validation';
+import { booleanValidator, patterns, repeatPasswordValidator } from '@/utils/validation';
 
 interface FormValues {
   user: {
@@ -114,11 +114,7 @@ const onFinish = (values: FormValues) => {
       :name="['organization', 'image']"
       :rules="[
         { required: true, message: 'Пожалуйста введите ссылку на логотип!' },
-        {
-          pattern:
-            /https?:\/\/(?:www\.)?[\w@:%._+~#=]{1,256}\.[\w()]{1,6}\b(?:[\w()@:%_+.~#?&/=]*)/g,
-          message: 'Некорректный формат ссылки!',
-        },
+        { pattern: patterns.url, message: 'Некорректный формат ссылки!' },
       ]"
     >
       <a-input v-model:value="form.organization.image" />

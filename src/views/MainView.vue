@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import CreateReview from '@/components/main/CreateReview.vue';
+import ReviewsCarousel from '@/components/main/ReviewsCarousel.vue';
 import TariffsList from '@/components/main/TariffsList.vue';
+import { useReviewsStore } from '@/store/reviews';
 import { useTariffsStore } from '@/store/tariffs';
 
 const tariffsStore = useTariffsStore();
+const reviewsStore = useReviewsStore();
 
 onMounted(async () => {
-  await Promise.all([tariffsStore.getTariffs()]);
+  await Promise.all([tariffsStore.getTariffs(), reviewsStore.getReviews()]);
 });
 </script>
 
@@ -72,23 +76,8 @@ onMounted(async () => {
 
     <a-card id="reviews">
       <h2>Отзывы</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
+      <ReviewsCarousel />
+      <CreateReview />
     </a-card>
   </a-space>
 </template>
