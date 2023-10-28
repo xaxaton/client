@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
+import { DollarOutlined } from '@ant-design/icons-vue';
 import CreateReview from '@/components/main/CreateReview.vue';
+import IntegrationInfo from '@/components/main/IntegrationInfo.vue';
+import MainInfo from '@/components/main/MainInfo.vue';
+import PossibilitiesInfo from '@/components/main/PossibilitiesInfo.vue';
 import ReviewsCarousel from '@/components/main/ReviewsCarousel.vue';
 import TariffsList from '@/components/main/TariffsList.vue';
 import { useReviewsStore } from '@/store/reviews';
@@ -21,62 +25,42 @@ onMounted(async () => {
     :class="$style.main"
   >
     <a-card>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, optio consequuntur.
-      Consequuntur atque molestiae vero cupiditate consequatur? Officia inventore, sapiente expedita
-      perferendis aperiam, officiis a fugiat consectetur laborum magnam nesciunt.
+      <MainInfo />
     </a-card>
 
     <a-card id="possibilities">
-      <h2>Возможности</h2>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
+      <PossibilitiesInfo />
     </a-card>
 
     <a-card id="tariffs">
       <h2>Тарифы</h2>
+
+      <h3><DollarOutlined /> Выберите подходящий тариф</h3>
+
+      <p>
+        <strong>Профтестиум</strong> предлагает гибкие тарифы, которые соответствуют потребностям
+        вашей компании. Мы предлагаем следующие варианты:
+      </p>
+
       <TariffsList />
     </a-card>
 
     <a-card id="integration">
-      <h2>Внедрение</h2>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
-
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Laudantium est, dignissimos ut
-        pariatur eum ratione ab iste sunt recusandae expedita voluptatem sint, quis voluptatum
-        atque. Eligendi blanditiis ea maxime quaerat!
-      </p>
+      <IntegrationInfo />
     </a-card>
 
     <a-card id="reviews">
       <h2>Отзывы</h2>
+
+      <h3>Отзывы наших клиентов</h3>
+
+      <p>
+        Наши клиенты довольны результатами, которые они достигают с помощью
+        <strong>Профтестиум</strong>. Вот что они говорят:
+      </p>
+
       <ReviewsCarousel />
+
       <CreateReview />
     </a-card>
   </a-space>
