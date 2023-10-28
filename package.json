@@ -16,8 +16,10 @@
   "dependencies": {
     "ant-design-vue": "^4.0.6",
     "axios": "^1.6.0",
+    "chart.js": "^4.4.0",
     "pinia": "^2.1.7",
     "vue": "^3.3.7",
+    "vue-chartjs": "^5.2.0",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {
