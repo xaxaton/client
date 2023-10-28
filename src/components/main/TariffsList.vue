@@ -56,11 +56,11 @@ watch(
 
 <style module lang="scss">
 .card {
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 8px;
+  align-items: center;
+  width: 100%;
   text-align: center;
 }
 </style>
