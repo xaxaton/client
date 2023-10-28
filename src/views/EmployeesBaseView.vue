@@ -26,10 +26,6 @@ const employees = Array.from({ length: 10 }).map(() => ({
           <a-descriptions-item label="Отдел">{{ item.department }}</a-descriptions-item>
           <a-descriptions-item label="Должность">{{ item.position }}</a-descriptions-item>
         </a-descriptions>
-        <!-- <a-typography-text>ФИО: {{ item.name }}</a-typography-text>
-        <a-typography-text>Email: {{ item.email }}</a-typography-text>
-        <a-typography-text>Отдел: {{ item.department }}</a-typography-text>
-        <a-typography-text>Должность: {{ item.position }}</a-typography-text> -->
       </a-list-item>
     </template>
   </a-list>
