@@ -13,7 +13,7 @@ export const useReviewsStore = defineStore('reviews', () => {
     try {
       reviews.value = await api.getReviews();
     } catch (error) {
-      message.error('Не удалось загрузить отзывы');
+      message.error('Не удалось загрузить отзывы!');
     } finally {
       loading.value = false;
     }
@@ -26,7 +26,7 @@ export const useReviewsStore = defineStore('reviews', () => {
       reviews.value.push(review);
       message.success('Отзыв успешно отправлен!');
     } catch (error) {
-      message.error('Не удалось отправить отзыв');
+      message.error('Не удалось отправить отзыв!');
     } finally {
       loading.value = false;
     }
