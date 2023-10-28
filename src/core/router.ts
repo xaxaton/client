@@ -18,6 +18,7 @@ import MyTicketsView from '@/views/MyTicketsView.vue';
 import OrganizationView from '@/views/OrganizationView.vue';
 import RegisterEmployeeView from '@/views/RegisterEmployeeView.vue';
 import RegisterOrganizationView from '@/views/RegisterOrganizationView.vue';
+import TestBaseView from '@/views/TestBaseView.vue';
 import TestsBaseView from '@/views/TestsBaseView.vue';
 
 export const router = createRouter({
@@ -93,6 +94,10 @@ export const router = createRouter({
             {
               path: '/account/tests-base',
               component: TestsBaseView,
+            },
+            {
+              path: '/account/tests-base/:id',
+              component: TestBaseView,
             },
             {
               path: '/account/employees-base',
