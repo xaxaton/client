@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { useUserStore } from '@/store/user';
 
-const router = useRouter();
+const userStore = useUserStore();
 
 interface FormValues {
   email: string;
@@ -14,10 +14,8 @@ const form = reactive<FormValues>({
   password: '',
 });
 
-const onFinish = (values: FormValues) => {
-  console.log(values);
-
-  router.push('/account');
+const onFinish = async (values: FormValues) => {
+  await userStore.login(values);
 };
 </script>
 
@@ -51,6 +49,7 @@ const onFinish = (values: FormValues) => {
       <a-button
         type="primary"
         html-type="submit"
+        :loading="userStore.loading"
       >
         Войти
       </a-button>

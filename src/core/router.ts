@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import AccountLayout from '@/layouts/AccountLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
+import { useUserStore } from '@/store/user';
 import AccountView from '@/views/AccountView.vue';
 import AnalyticsView from '@/views/AnalyticsView.vue';
 import EmployeesBaseView from '@/views/EmployeesBaseView.vue';
@@ -51,6 +52,7 @@ export const router = createRouter({
         {
           path: '/account',
           component: AccountLayout,
+          meta: { private: true },
           children: [
             {
               path: '/account',
@@ -109,4 +111,14 @@ export const router = createRouter({
       redirect: '/',
     },
   ],
+});
+
+router.beforeEach((to, _from, next) => {
+  const store = useUserStore();
+
+  if (to.meta.private && !store.authorized) {
+    next('/login');
+  } else {
+    next();
+  }
 });

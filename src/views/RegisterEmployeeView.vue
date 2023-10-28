@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { useUserStore } from '@/store/user';
 import { booleanValidator, repeatPasswordValidator } from '@/utils/validation';
 
 interface FormValues {
   user: {
     name: string;
+    surname: string;
+    patronymic: string;
     email: string;
     password: string;
     repeatPassword: string;
@@ -12,18 +15,28 @@ interface FormValues {
   agreement: boolean;
 }
 
+const userStore = useUserStore();
+
 const form = reactive<FormValues>({
   user: {
     email: '',
     name: '',
+    surname: '',
+    patronymic: '',
     password: '',
     repeatPassword: '',
   },
   agreement: false,
 });
 
-const onFinish = (values: FormValues) => {
-  console.log(values);
+const onFinish = async (values: FormValues) => {
+  await userStore.register({
+    email: values.user.email,
+    name: values.user.name,
+    surname: values.user.surname,
+    middle_name: values.user.patronymic,
+    password: values.user.password,
+  });
 };
 </script>
 
@@ -43,6 +56,22 @@ const onFinish = (values: FormValues) => {
     </a-form-item>
 
     <a-form-item
+      label="Ваше отчество"
+      :name="['user', 'patronymic']"
+      :rules="[{ required: true, message: 'Пожалуйста введите ваше отчество!' }]"
+    >
+      <a-input v-model:value="form.user.patronymic" />
+    </a-form-item>
+
+    <a-form-item
+      label="Ваша фамилия"
+      :name="['user', 'surname']"
+      :rules="[{ required: true, message: 'Пожалуйста введите вашу фамилию!' }]"
+    >
+      <a-input v-model:value="form.user.surname" />
+    </a-form-item>
+
+    <a-form-item
       label="Ваш Email"
       :name="['user', 'email']"
       :rules="[
@@ -56,7 +85,10 @@ const onFinish = (values: FormValues) => {
     <a-form-item
       label="Ваш пароль"
       :name="['user', 'password']"
-      :rules="[{ required: true, message: 'Пожалуйста введите ваш пароль!' }]"
+      :rules="[
+        { required: true, message: 'Пожалуйста введите ваш пароль!' },
+        { min: 8, message: 'Пароль должен содержать как минимум 8 символов!' },
+      ]"
     >
       <a-input-password v-model:value="form.user.password" />
     </a-form-item>
@@ -85,6 +117,7 @@ const onFinish = (values: FormValues) => {
       <a-button
         type="primary"
         html-type="submit"
+        :loading="userStore.loading"
       >
         Отправить
       </a-button>
