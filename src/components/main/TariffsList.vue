@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import { watch } from 'vue';
 import { useTariffsStore } from '@/store/tariffs';
 import { formatMoney } from '@/utils/format';
 
 const tariffsStore = useTariffsStore();
-
-watch(
-  () => tariffsStore.tariffs,
-  (t) => console.log(t),
-  { immediate: true },
-);
 </script>
 
 <template>
