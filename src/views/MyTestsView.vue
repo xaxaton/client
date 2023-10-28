@@ -36,8 +36,8 @@ const activeKey = ref(courses[0].id);
       :header="course.name"
     >
       <a-list
-        :data-source="courses"
         size="small"
+        :data-source="courses"
       >
         <template #renderItem="{ item }">
           <a-list-item>
