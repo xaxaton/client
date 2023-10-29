@@ -1,59 +1,68 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
+import { useOrganizationsStore } from '@/store/organizations';
+import { useTariffsStore } from '@/store/tariffs';
 import { booleanValidator, patterns, repeatPasswordValidator } from '@/utils/validation';
 
 interface FormValues {
   user: {
     name: string;
+    surname: string;
+    patronymic: string;
     email: string;
     password: string;
     repeatPassword: string;
   };
   organization: {
     name: string;
-    image: string;
+    logo: string;
   };
-  tariffId: number;
+  tariffId: number | null;
   agreement: boolean;
 }
 
-const tariffs = [
-  {
-    id: 1,
-    name: 'Бесплатный',
-  },
-  {
-    id: 3,
-    name: 'Минимальный',
-  },
-  {
-    id: 2,
-    name: 'Оптимальный',
-  },
-  {
-    id: 4,
-    name: 'Полный',
-  },
-];
+const organizationsStore = useOrganizationsStore();
+const tariffsStore = useTariffsStore();
 
 const form = reactive<FormValues>({
   user: {
     email: '',
     name: '',
+    surname: '',
+    patronymic: '',
     password: '',
     repeatPassword: '',
   },
   organization: {
     name: '',
-    image: '',
+    logo: '',
   },
-  tariffId: 1,
+  tariffId: null,
   agreement: false,
 });
 
-const onFinish = (values: FormValues) => {
-  console.log(values);
+const onFinish = async (values: FormValues) => {
+  await organizationsStore.registerOrganization({
+    user: {
+      email: values.user.email,
+      name: values.user.name,
+      surname: values.user.surname,
+      middle_name: values.user.patronymic,
+      password: values.user.password,
+    },
+    organization: {
+      name: values.organization.name,
+      logo: values.organization.logo,
+      tariff: {
+        id: values.tariffId!,
+      },
+    },
+  });
 };
+
+onMounted(async () => {
+  await tariffsStore.getTariffs();
+});
 </script>
 
 <template>
@@ -64,11 +73,27 @@ const onFinish = (values: FormValues) => {
     @finish="onFinish"
   >
     <a-form-item
+      label="Ваша фамилия"
+      :name="['user', 'surname']"
+      :rules="[{ required: true, message: 'Пожалуйста введите вашу фамилию!' }]"
+    >
+      <a-input v-model:value="form.user.surname" />
+    </a-form-item>
+
+    <a-form-item
       label="Ваше имя"
       :name="['user', 'name']"
       :rules="[{ required: true, message: 'Пожалуйста введите ваше имя!' }]"
     >
       <a-input v-model:value="form.user.name" />
+    </a-form-item>
+
+    <a-form-item
+      label="Ваше отчество"
+      :name="['user', 'patronymic']"
+      :rules="[{ required: true, message: 'Пожалуйста введите ваше отчество!' }]"
+    >
+      <a-input v-model:value="form.user.patronymic" />
     </a-form-item>
 
     <a-form-item
@@ -85,7 +110,10 @@ const onFinish = (values: FormValues) => {
     <a-form-item
       label="Ваш пароль"
       :name="['user', 'password']"
-      :rules="[{ required: true, message: 'Пожалуйста введите ваш пароль!' }]"
+      :rules="[
+        { required: true, message: 'Пожалуйста введите ваш пароль!' },
+        { min: 8, message: 'Пароль должен содержать как минимум 8 символов!' },
+      ]"
     >
       <a-input-password v-model:value="form.user.password" />
     </a-form-item>
@@ -111,13 +139,13 @@ const onFinish = (values: FormValues) => {
 
     <a-form-item
       label="Ссылка на логотип"
-      :name="['organization', 'image']"
+      :name="['organization', 'logo']"
       :rules="[
         { required: true, message: 'Пожалуйста введите ссылку на логотип!' },
         { pattern: patterns.url, message: 'Некорректный формат ссылки!' },
       ]"
     >
-      <a-input v-model:value="form.organization.image" />
+      <a-input v-model:value="form.organization.logo" />
     </a-form-item>
 
     <a-form-item
@@ -125,9 +153,12 @@ const onFinish = (values: FormValues) => {
       name="tariffId"
       :rules="[{ required: true, message: 'Пожалуйста выберите тариф!' }]"
     >
-      <a-select v-model:value="form.tariffId">
+      <a-select
+        v-model:value="form.tariffId"
+        :loading="tariffsStore.loading"
+      >
         <a-select-option
-          v-for="tariff in tariffs"
+          v-for="tariff in tariffsStore.tariffs"
           :key="tariff.id"
           :value="tariff.id"
         >
@@ -149,6 +180,7 @@ const onFinish = (values: FormValues) => {
       <a-button
         type="primary"
         html-type="submit"
+        :loading="organizationsStore.loading"
       >
         Отправить
       </a-button>

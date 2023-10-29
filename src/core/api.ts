@@ -10,14 +10,20 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use((req) => {
-  req.headers['Authorization'] = storage.get('token');
+  const token = storage.get('token');
+  if (token) {
+    req.headers['Authorization'] = `Bearer ${token}`;
+  }
   return req;
 });
 
 api.interceptors.response.use(
   (res) => res,
   (error) => {
-    if (error.response.status === HttpStatusCode.Unauthorized) {
+    if (
+      error.response.status === HttpStatusCode.Unauthorized ||
+      error.response.status === HttpStatusCode.Forbidden
+    ) {
       const userStore = useUserStore();
       userStore.logout();
     }

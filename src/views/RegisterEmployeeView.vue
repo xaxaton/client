@@ -48,6 +48,14 @@ const onFinish = async (values: FormValues) => {
     @finish="onFinish"
   >
     <a-form-item
+      label="Ваша фамилия"
+      :name="['user', 'surname']"
+      :rules="[{ required: true, message: 'Пожалуйста введите вашу фамилию!' }]"
+    >
+      <a-input v-model:value="form.user.surname" />
+    </a-form-item>
+
+    <a-form-item
       label="Ваше имя"
       :name="['user', 'name']"
       :rules="[{ required: true, message: 'Пожалуйста введите ваше имя!' }]"
@@ -61,14 +69,6 @@ const onFinish = async (values: FormValues) => {
       :rules="[{ required: true, message: 'Пожалуйста введите ваше отчество!' }]"
     >
       <a-input v-model:value="form.user.patronymic" />
-    </a-form-item>
-
-    <a-form-item
-      label="Ваша фамилия"
-      :name="['user', 'surname']"
-      :rules="[{ required: true, message: 'Пожалуйста введите вашу фамилию!' }]"
-    >
-      <a-input v-model:value="form.user.surname" />
     </a-form-item>
 
     <a-form-item

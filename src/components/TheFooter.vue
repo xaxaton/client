@@ -1,5 +1,5 @@
 <template>
-  <a-layout-footer :class="$style.footer">Профтестиум ©2023</a-layout-footer>
+  <a-layout-footer :class="$style.footer">ПрофТестиум ©2023</a-layout-footer>
 </template>
 
 <style module lang="scss">

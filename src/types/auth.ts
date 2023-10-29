@@ -1,3 +1,5 @@
+import { User } from './user';
+
 export interface LoginUserData {
   email: string;
   password: string;
@@ -14,4 +16,8 @@ export enum Role {
   HR,
   Admin,
   SuperUser,
+}
+
+export interface AuthResponse {
+  user: User;
 }
