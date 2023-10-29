@@ -1,61 +1,21 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { UserOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue';
-import { message } from 'ant-design-vue';
+import { useTicketsStore } from '@/store/tickets';
+import { Ticket } from '@/types/tickets';
 
 interface FormValues {
   text: string;
 }
 
-const tickets = [
-  {
-    id: 1,
-    user: {
-      id: 1,
-      name: 'Иванов Иван Иванович',
-    },
-    text: 'tin office newspaper chain planned foot game cheese garage fur act thee enough day stretch hunt shoe wooden experiment harder silence nuts to join',
-  },
-  {
-    id: 2,
-    user: {
-      id: 1,
-      name: 'Иванов Иван Иванович',
-    },
-    text: 'name center character due view wash they snake enough serious third talk soft attempt eleven number summer powder floor worth wall walk jar hurried',
-  },
-  {
-    id: 3,
-    user: {
-      id: 1,
-      name: 'Иванов Иван Иванович',
-    },
-    text: 'worker football river taken sang scientist finally exercise news sister special husband most dinner percent break drink visit solution while expect science mad merely',
-  },
-  {
-    id: 4,
-    user: {
-      id: 1,
-      name: 'Иванов Иван Иванович',
-    },
-    text: 'law act attempt fuel major size master noise education compass charge store test alive instead sand review trace world long energy bicycle laid moving',
-  },
-  {
-    id: 5,
-    user: {
-      id: 1,
-      name: 'Иванов Иван Иванович',
-    },
-    text: 'understanding then east mental buffalo according begun bone service bear due space halfway prepare nation contrast pair belt unhappy pet fog hall cotton society',
-  },
-];
+const ticketsStore = useTicketsStore();
 
 const form = reactive<FormValues>({
   text: '',
 });
-const ticket = ref<(typeof tickets)[number] | null>(null);
+const ticket = ref<Ticket | null>(null);
 
-const onOpen = (value: (typeof tickets)[number]) => {
+const onOpen = (value: Ticket) => {
   ticket.value = value;
 };
 
@@ -64,24 +24,32 @@ const onClose = () => {
   form.text = '';
 };
 
-const onFinish = (values: FormValues) => {
-  console.log(values);
-  message.success('Ответ успешно отправлен!');
+const onFinish = async (values: FormValues) => {
+  if (!ticket.value) return;
+  await ticketsStore.createAnswer(ticket.value.id, values.text);
   onClose();
 };
+
+onMounted(async () => {
+  await ticketsStore.getTickets();
+  onClose();
+});
 </script>
 
 <template>
+  <a-skeleton v-if="ticketsStore.loading" />
+
   <a-list
+    v-else
     size="small"
-    :data-source="tickets"
+    :data-source="ticketsStore.tickets.filter((ticket) => !ticket.answer)"
   >
     <template #renderItem="{ item }">
       <a-list-item>
         <a-space direction="vertical">
           <a-space>
             <UserOutlined />
-            {{ `От пользователя: ${item.user.name}` }}
+            {{ `От пользователя: ${item.full_name}` }}
           </a-space>
 
           <a-space align="start">
@@ -137,6 +105,7 @@ const onFinish = (values: FormValues) => {
             <a-button
               type="primary"
               html-type="submit"
+              :loading="ticketsStore.loading"
             >
               Отправить
             </a-button>
