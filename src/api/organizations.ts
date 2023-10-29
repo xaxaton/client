@@ -26,11 +26,11 @@ export const getEmployees = async () => {
 };
 
 export const getDepartments = async () => {
-  const { data } = await api.get<Department[]>('/organizations/departments');
+  const { data } = await api.get<Department[]>('/organizations/departments/');
   return data;
 };
 
 export const getPositions = async () => {
-  const { data } = await api.get<Position[]>('/organizations/positions');
+  const { data } = await api.get<Position[]>('/organizations/positions/');
   return data;
 };
