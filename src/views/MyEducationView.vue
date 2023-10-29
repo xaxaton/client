@@ -1,29 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { FileOutlined } from '@ant-design/icons-vue';
-
-const courses = [
-  {
-    id: 1,
-    name: 'Beside tune cowboy discovery noun should ready shallow hungry',
-  },
-  {
-    id: 2,
-    name: 'Scientific brain sharp plate alphabet upper habit queen physical',
-  },
-  {
-    id: 3,
-    name: 'Radio rapidly period shall forget apart gave climate printed remarkable',
-  },
-  {
-    id: 4,
-    name: 'Standard believed wherever pair look large only ahead prove wood blew',
-  },
-  {
-    id: 5,
-    name: 'Sit road vote twelve day end facing hot party silent poet speed visit ',
-  },
-];
+import { useCoursesStore } from '@/store/courses';
 
 const materials = [
   {
@@ -53,13 +31,24 @@ const materials = [
   },
 ];
 
-const activeKey = ref(courses[0].id);
+const coursesStore = useCoursesStore();
+
+const activeKey = ref<number | null>(null);
+
+onMounted(async () => {
+  await coursesStore.getCourses();
+});
 </script>
 
 <template>
-  <a-collapse v-model:activeKey="activeKey">
+  <a-skeleton v-if="coursesStore.loading" />
+
+  <a-collapse
+    v-else
+    v-model:activeKey="activeKey"
+  >
     <a-collapse-panel
-      v-for="course in courses"
+      v-for="course in coursesStore.courses"
       :key="course.id"
       :header="course.name"
     >
