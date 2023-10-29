@@ -1,43 +1,55 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ProfileOutlined } from '@ant-design/icons-vue';
+import { useCoursesStore } from '@/store/courses';
 
-const courses = [
+const tests = [
   {
     id: 1,
-    name: 'Beside tune cowboy discovery noun should ready shallow hungry',
+    name: 'Sign',
   },
   {
     id: 2,
-    name: 'Scientific brain sharp plate alphabet upper habit queen physical',
+    name: 'Air',
   },
   {
     id: 3,
-    name: 'Radio rapidly period shall forget apart gave climate printed remarkable',
+    name: 'Pitch',
   },
   {
     id: 4,
-    name: 'Standard believed wherever pair look large only ahead prove wood blew',
+    name: 'Character',
   },
   {
     id: 5,
-    name: 'Sit road vote twelve day end facing hot party silent poet speed visit ',
+    name: 'Color',
   },
 ];
 
-const activeKey = ref(courses[0].id);
+const coursesStore = useCoursesStore();
+
+const activeKey = ref<number | null>(null);
+
+onMounted(async () => {
+  await coursesStore.getCourses();
+});
 </script>
 
 <template>
-  <a-collapse v-model:activeKey="activeKey">
+  <a-skeleton v-if="coursesStore.loading" />
+
+  <a-collapse
+    v-else
+    v-model:activeKey="activeKey"
+  >
     <a-collapse-panel
-      v-for="course in courses"
+      v-for="course in coursesStore.courses"
       :key="course.id"
       :header="course.name"
     >
       <a-list
         size="small"
-        :data-source="courses"
+        :data-source="tests"
       >
         <template #renderItem="{ item }">
           <a-list-item>
@@ -53,7 +65,7 @@ const activeKey = ref(courses[0].id);
               <a-col>
                 <router-link
                   style="margin-left: auto"
-                  to="/account/my-tests/1"
+                  :to="`/account/my-tests/${item.id}`"
                 >
                   <a-button type="primary">Пройти тест</a-button>
                 </router-link>
