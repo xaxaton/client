@@ -14,3 +14,13 @@ export interface RegisterOrganizationData {
     };
   };
 }
+
+export interface Department {
+  id: number;
+  name: string;
+}
+
+export interface Position {
+  id: number;
+  name: string;
+}

@@ -1,4 +1,5 @@
 import { Role } from './auth';
+import { Department, Position } from './organizations';
 
 export interface BaseUser {
   id: number;
@@ -15,14 +16,8 @@ export interface OrganizationUser extends BaseUser {
     logo: string;
     tariff: number;
   } | null;
-  department: {
-    id: number;
-    name: string;
-  } | null;
-  position: {
-    id: number;
-    name: string;
-  } | null;
+  department: Department | null;
+  position: Position | null;
 }
 
 export interface User extends OrganizationUser {

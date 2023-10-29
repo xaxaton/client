@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 
 type FormValues = Record<number, number>;
@@ -10,6 +10,7 @@ interface Answer {
   answerId: number;
 }
 
+const route = useRoute();
 const router = useRouter();
 
 const questions = [
@@ -124,12 +125,12 @@ const onFinish = (values: FormValues) => {
       <router-link to="/account/my-tests">Мои тесты</router-link>
     </a-breadcrumb-item>
 
-    <a-breadcrumb-item>Test name</a-breadcrumb-item>
+    <a-breadcrumb-item>{{ route.params.id }}</a-breadcrumb-item>
   </a-breadcrumb>
 
   <a-divider />
 
-  <h3>Test name</h3>
+  <h3>{{ route.params.id }}</h3>
 
   <a-divider />
 

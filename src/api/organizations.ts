@@ -1,6 +1,6 @@
 import { api } from '@/core/api';
 import { AuthResponse } from '@/types/auth';
-import { RegisterOrganizationData } from '@/types/organizations';
+import { Department, Position, RegisterOrganizationData } from '@/types/organizations';
 import { OrganizationUser } from '@/types/user';
 
 export const registerOrganization = async ({ user, organization }: RegisterOrganizationData) => {
@@ -22,5 +22,15 @@ export const getQr = async () => {
 
 export const getEmployees = async () => {
   const { data } = await api.get<OrganizationUser[]>('/organizations/employees/');
+  return data;
+};
+
+export const getDepartments = async () => {
+  const { data } = await api.get<Department[]>('/organizations/departments');
+  return data;
+};
+
+export const getPositions = async () => {
+  const { data } = await api.get<Position[]>('/organizations/positions');
   return data;
 };

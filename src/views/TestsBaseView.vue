@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-import { ProfileOutlined } from '@ant-design/icons-vue';
+import { ref, reactive, onMounted, h } from 'vue';
+import { ProfileOutlined, DeleteOutlined } from '@ant-design/icons-vue';
+import { useCoursesStore } from '@/store/courses';
 
 interface FormValues {
   name: string;
@@ -52,6 +53,8 @@ const tests = [
   },
 ];
 
+const coursesStore = useCoursesStore();
+
 const activeKey = ref(courses[0].id);
 const form = reactive<FormValues>({
   name: '',
@@ -66,12 +69,25 @@ const onClose = () => {
 const onFinish = (values: FormValues) => {
   console.log(values);
 };
+
+const onDelete = (id: number) => {
+  console.log(id);
+};
+
+onMounted(async () => {
+  await coursesStore.getCourses();
+});
 </script>
 
 <template>
-  <a-collapse v-model:activeKey="activeKey">
+  <a-skeleton v-if="coursesStore.loading" />
+
+  <a-collapse
+    v-else
+    v-model:activeKey="activeKey"
+  >
     <a-collapse-panel
-      v-for="course in courses"
+      v-for="course in coursesStore.courses"
       :key="course.id"
       :header="course.name"
     >
@@ -82,12 +98,33 @@ const onFinish = (values: FormValues) => {
       >
         <template #renderItem="{ item }">
           <a-list-item>
-            <router-link :to="`/account/tests-base/${item.id}`">
-              <a-space>
-                <ProfileOutlined />
-                {{ item.name }}
-              </a-space>
-            </router-link>
+            <a-row
+              justify="space-between"
+              align="middle"
+              style="width: 100%"
+            >
+              <router-link :to="`/account/tests-base/${item.id}`">
+                <a-space>
+                  <ProfileOutlined />
+                  {{ item.name }}
+                </a-space>
+              </router-link>
+
+              <a-popconfirm
+                title="Вы действительно хотите удалить тест?"
+                cancel-text="Нет"
+                ok-text="Да"
+                @confirm="onDelete(item.id)"
+              >
+                <a-button
+                  danger
+                  size="small"
+                  type="primary"
+                  :icon="h(DeleteOutlined)"
+                  @click.stop
+                />
+              </a-popconfirm>
+            </a-row>
           </a-list-item>
         </template>
       </a-list>

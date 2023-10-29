@@ -7,27 +7,27 @@ const materials = [
   {
     id: 1,
     name: 'Sign',
-    link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    link: 'http://www.osu.ru/doc/2593',
   },
   {
     id: 2,
     name: 'Air',
-    link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    link: 'http://www.osu.ru/doc/2593',
   },
   {
     id: 3,
     name: 'Pitch',
-    link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    link: 'http://www.osu.ru/doc/2593',
   },
   {
     id: 4,
     name: 'Character',
-    link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    link: 'http://www.osu.ru/doc/2593',
   },
   {
     id: 5,
     name: 'Color',
-    link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+    link: 'http://www.osu.ru/doc/2593',
   },
 ];
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive, h } from 'vue';
+import { useRoute } from 'vue-router';
 import { DeleteOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 
@@ -121,6 +122,8 @@ const questions = [
   },
 ];
 
+const route = useRoute();
+
 const open = ref(false);
 const form = reactive<FormValues>({
   text: '',
@@ -179,12 +182,12 @@ const onToggleQuestion = (index: number) => {
       <router-link to="/account/tests-base">База тестов</router-link>
     </a-breadcrumb-item>
 
-    <a-breadcrumb-item>Test name</a-breadcrumb-item>
+    <a-breadcrumb-item>{{ route.params.id }}</a-breadcrumb-item>
   </a-breadcrumb>
 
   <a-divider />
 
-  <h3>Test name</h3>
+  <h3>{{ route.params.id }}</h3>
 
   <a-divider />
 

@@ -4,7 +4,7 @@ import { message, notification } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 import * as api from '@/api/organizations';
 import { api as core } from '@/core/api';
-import { RegisterOrganizationData } from '@/types/organizations';
+import { Department, Position, RegisterOrganizationData } from '@/types/organizations';
 import { OrganizationUser } from '@/types/user';
 import { useUserStore } from './user';
 
@@ -13,8 +13,12 @@ export const useOrganizationsStore = defineStore('organizations', () => {
   const userStore = useUserStore();
 
   const employees = ref<OrganizationUser[]>([]);
+  const departments = ref<Department[]>([]);
+  const positions = ref<Position[]>([]);
   const qr = ref<string | null>(null);
   const loading = ref(false);
+  const departmentsLoading = ref(false);
+  const positionsLoading = ref(false);
 
   const registerOrganization = async (data: RegisterOrganizationData) => {
     loading.value = true;
@@ -77,14 +81,42 @@ export const useOrganizationsStore = defineStore('organizations', () => {
     }
   };
 
+  const getDepartments = async () => {
+    departmentsLoading.value = true;
+    try {
+      departments.value = await api.getDepartments();
+    } catch (error) {
+      message.error('Не удалось загрузить отделы!');
+    } finally {
+      departmentsLoading.value = false;
+    }
+  };
+
+  const getPositions = async () => {
+    positionsLoading.value = true;
+    try {
+      positions.value = await api.getPositions();
+    } catch (error) {
+      message.error('Не удалось загрузить должности!');
+    } finally {
+      positionsLoading.value = false;
+    }
+  };
+
   return {
     employees,
+    departments,
+    positions,
     qr,
     loading,
+    departmentsLoading,
+    positionsLoading,
     registerOrganization,
     connect,
     invite,
     getQr,
     getEmployees,
+    getDepartments,
+    getPositions,
   };
 });
