@@ -1,17 +1,22 @@
 <script setup lang="ts">
-const employees = Array.from({ length: 10 }).map(() => ({
-  id: 1,
-  email: 'ivanov.ivan@mail.ru',
-  name: 'Иванов Иван Иванович',
-  department: 'Слесарный',
-  position: 'Слесарь',
-}));
+import { onMounted } from 'vue';
+import { useOrganizationsStore } from '@/store/organizations';
+import { formatFullName } from '@/utils/format';
+
+const organizationsStore = useOrganizationsStore();
+
+onMounted(async () => {
+  await organizationsStore.getEmployees();
+});
 </script>
 
 <template>
+  <a-skeleton v-if="organizationsStore.loading" />
+
   <a-list
+    v-else
     size="small"
-    :data-source="employees"
+    :data-source="organizationsStore.employees"
   >
     <template #renderItem="{ item }">
       <a-list-item>
@@ -19,12 +24,9 @@ const employees = Array.from({ length: 10 }).map(() => ({
           :class="$style.descriptions"
           :column="1"
           size="small"
-          bordered
         >
-          <a-descriptions-item label="ФИО">{{ item.name }}</a-descriptions-item>
+          <a-descriptions-item label="ФИО">{{ formatFullName(item) }}</a-descriptions-item>
           <a-descriptions-item label="Email">{{ item.email }}</a-descriptions-item>
-          <a-descriptions-item label="Отдел">{{ item.department }}</a-descriptions-item>
-          <a-descriptions-item label="Должность">{{ item.position }}</a-descriptions-item>
         </a-descriptions>
       </a-list-item>
     </template>

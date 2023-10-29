@@ -3,6 +3,7 @@ import AccountLayout from '@/layouts/AccountLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
 import { useUserStore } from '@/store/user';
+import { storage } from '@/utils/storage';
 import AccountView from '@/views/AccountView.vue';
 import AnalyticsView from '@/views/AnalyticsView.vue';
 import EmployeesBaseView from '@/views/EmployeesBaseView.vue';
@@ -16,6 +17,7 @@ import MyTestView from '@/views/MyTestView.vue';
 import MyTestsView from '@/views/MyTestsView.vue';
 import MyTicketsView from '@/views/MyTicketsView.vue';
 import OrganizationView from '@/views/OrganizationView.vue';
+import QrView from '@/views/QrView.vue';
 import RegisterEmployeeView from '@/views/RegisterEmployeeView.vue';
 import RegisterOrganizationView from '@/views/RegisterOrganizationView.vue';
 import TestBaseView from '@/views/TestBaseView.vue';
@@ -58,6 +60,10 @@ export const router = createRouter({
             {
               path: '/account',
               component: AccountView,
+            },
+            {
+              path: '/account/qr',
+              component: QrView,
             },
             {
               path: '/account/organization',
@@ -119,10 +125,14 @@ export const router = createRouter({
 });
 
 router.beforeEach((to, _from, next) => {
-  const store = useUserStore();
+  const userStore = useUserStore();
 
-  if (to.meta.private && !store.authorized) {
-    next('/login');
+  if (to.meta.private && !userStore.authorized) {
+    if (storage.get('token')) {
+      next();
+    } else {
+      next('/login');
+    }
   } else {
     next();
   }

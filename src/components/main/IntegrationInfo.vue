@@ -14,7 +14,7 @@ import { ApiOutlined, ClusterOutlined } from '@ant-design/icons-vue';
   </p>
 
   <p>
-    <ApiOutlined /> <strong>Внедрение системы:</strong> Мы поможем вам настроить Профтестиум и
+    <ApiOutlined /> <strong>Внедрение системы:</strong> Мы поможем вам настроить ПрофТестиум и
     интегрировать его в вашу компанию.
   </p>
 

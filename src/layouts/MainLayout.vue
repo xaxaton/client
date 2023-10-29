@@ -2,8 +2,10 @@
 import { useRoute } from 'vue-router';
 import TheContainer from '@/components/TheContainer.vue';
 import TheFooter from '@/components/TheFooter.vue';
+import { useUserStore } from '@/store/user';
 
 const route = useRoute();
+const userStore = useUserStore();
 
 const items = {
   nav: [
@@ -13,19 +15,19 @@ const items = {
     },
     {
       label: 'Возможности',
-      link: '#possibilities',
+      link: '/#possibilities',
     },
     {
       label: 'Тарифы',
-      link: '#tariffs',
+      link: '/#tariffs',
     },
     {
       label: 'Внедрение',
-      link: '#integration',
+      link: '/#integration',
     },
     {
       label: 'Отзывы',
-      link: '#reviews',
+      link: '/#reviews',
     },
   ],
   register: [
@@ -60,14 +62,33 @@ const items = {
           </a-menu>
         </a-col>
 
-        <a-col>
+        <a-col v-if="userStore.authorized">
+          <a-menu
+            theme="dark"
+            mode="horizontal"
+            :selected-keys="[route.path]"
+          >
+            <a-menu-item key="/account">
+              <router-link to="/account">Личный кабинет</router-link>
+            </a-menu-item>
+
+            <a-menu-item
+              key="logout"
+              @click="userStore.logout"
+            >
+              Выйти
+            </a-menu-item>
+          </a-menu>
+        </a-col>
+
+        <a-col v-else>
           <a-menu
             theme="dark"
             mode="horizontal"
             :selected-keys="[route.path]"
           >
             <a-menu-item key="/login">
-              <router-link to="/login">Вход для зарегистрированных пользователей</router-link>
+              <router-link to="/login">Авторизация</router-link>
             </a-menu-item>
 
             <a-sub-menu title="Регистрация">
