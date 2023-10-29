@@ -5,14 +5,14 @@ import { defineStore } from 'pinia';
 import * as api from '@/api/organizations';
 import { api as core } from '@/core/api';
 import { RegisterOrganizationData } from '@/types/organizations';
-import { BaseUser } from '@/types/user';
+import { OrganizationUser } from '@/types/user';
 import { useUserStore } from './user';
 
 export const useOrganizationsStore = defineStore('organizations', () => {
   const router = useRouter();
   const userStore = useUserStore();
 
-  const employees = ref<BaseUser[]>([]);
+  const employees = ref<OrganizationUser[]>([]);
   const qr = ref<string | null>(null);
   const loading = ref(false);
 

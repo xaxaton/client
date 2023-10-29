@@ -8,9 +8,7 @@ export interface BaseUser {
   middle_name: string;
 }
 
-export interface User extends BaseUser {
-  role: Role;
-  token: string;
+export interface OrganizationUser extends BaseUser {
   organization: {
     id: number;
     name: string;
@@ -25,4 +23,9 @@ export interface User extends BaseUser {
     id: number;
     name: string;
   } | null;
+}
+
+export interface User extends OrganizationUser {
+  role: Role;
+  token: string;
 }

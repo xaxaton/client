@@ -26,7 +26,22 @@ onMounted(async () => {
           size="small"
         >
           <a-descriptions-item label="ФИО">{{ formatFullName(item) }}</a-descriptions-item>
+
           <a-descriptions-item label="Email">{{ item.email }}</a-descriptions-item>
+
+          <a-descriptions-item
+            v-if="item.department"
+            label="Отдел"
+          >
+            {{ item.department.name }}
+          </a-descriptions-item>
+
+          <a-descriptions-item
+            v-if="item.position"
+            label="Должность"
+          >
+            {{ item.position.name }}
+          </a-descriptions-item>
         </a-descriptions>
       </a-list-item>
     </template>

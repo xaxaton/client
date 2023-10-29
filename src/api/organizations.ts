@@ -1,7 +1,7 @@
 import { api } from '@/core/api';
 import { AuthResponse } from '@/types/auth';
 import { RegisterOrganizationData } from '@/types/organizations';
-import { BaseUser } from '@/types/user';
+import { OrganizationUser } from '@/types/user';
 
 export const registerOrganization = async ({ user, organization }: RegisterOrganizationData) => {
   const { data } = await api.post<AuthResponse>('/organizations/register/', {
@@ -21,6 +21,6 @@ export const getQr = async () => {
 };
 
 export const getEmployees = async () => {
-  const { data } = await api.get<BaseUser[]>('/organizations/employees/');
+  const { data } = await api.get<OrganizationUser[]>('/organizations/employees/');
   return data;
 };

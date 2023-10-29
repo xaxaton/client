@@ -8,7 +8,6 @@ import {
   ProfileOutlined,
   FundOutlined,
   CommentOutlined,
-  ApiOutlined,
 } from '@ant-design/icons-vue';
 import { useUserStore } from '@/store/user';
 import { Role } from '@/types/auth';
@@ -58,12 +57,6 @@ const items = computed(() => {
         },
       );
     }
-  } else {
-    items.push({
-      label: 'Сканировать QR-код',
-      link: '/account/qr',
-      icon: ApiOutlined,
-    });
   }
 
   if (userStore.hr) {
