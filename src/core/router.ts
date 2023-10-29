@@ -17,7 +17,6 @@ import MyTestView from '@/views/MyTestView.vue';
 import MyTestsView from '@/views/MyTestsView.vue';
 import MyTicketsView from '@/views/MyTicketsView.vue';
 import OrganizationView from '@/views/OrganizationView.vue';
-import QrView from '@/views/QrView.vue';
 import RegisterEmployeeView from '@/views/RegisterEmployeeView.vue';
 import RegisterOrganizationView from '@/views/RegisterOrganizationView.vue';
 import TestBaseView from '@/views/TestBaseView.vue';
@@ -60,10 +59,6 @@ export const router = createRouter({
             {
               path: '/account',
               component: AccountView,
-            },
-            {
-              path: '/account/qr',
-              component: QrView,
             },
             {
               path: '/account/organization',
